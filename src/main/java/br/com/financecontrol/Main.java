@@ -1,5 +1,8 @@
 package br.com.financecontrol;
+import java.util.ArrayList;
 import java.util.Scanner;
+import br.com.financecontrol.model.Transacao;
+import java.math.BigDecimal;
 
 public class Main {
 
@@ -13,6 +16,14 @@ public class Main {
         System.out.println("Desenvolvido em Java\n");
 
         int opcao;
+
+        Transacao salario = new Transacao("Salário", new BigDecimal("3500.00"));
+        ArrayList<Transacao> entradas = new ArrayList<>();
+        entradas.add(salario);
+
+        System.out.println("Descrição: " + salario.getDescricao());
+        System.out.println("Valor: R$ " + salario.getValor());
+        System.out.println(entradas.size());
 
         do {
             System.out.println("=== MENU PRINCIPAL ===\n");
@@ -33,6 +44,11 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Listagem de transações selecionada");
+                    for(Transacao transacao : entradas) {
+                        System.out.println("Descrição: " + transacao.getDescricao());
+                        System.out.println("Valor: R$ " + transacao.getValor());
+                        System.out.println("-------------------------");
+                    }
                     break;
                 case 4:
                     System.out.println("Consulta de saldo selecionada");
