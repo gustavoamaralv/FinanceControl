@@ -38,6 +38,26 @@ public class Main {
             switch (opcao) {
                 case 1:
                     System.out.println("Cadastro de receita selecionada");
+                    scanner.nextLine();
+                    System.out.println("Digite a descrição da receita:");
+                    String descricao = scanner.nextLine();
+
+                    System.out.println("Descrição informada: " + descricao + "\n");
+
+                    System.out.println("Digite o valor da receita:");
+                    String valorDigitado = scanner.nextLine();
+
+                    BigDecimal valor = new BigDecimal (valorDigitado);
+                    System.out.println("Valor informado: R$ " + valor);
+
+                    if (valor.compareTo(BigDecimal.ZERO) <= 0) {
+                        System.out.println("O valor da receita deve ser maior que 0");
+                    } else {
+                        Transacao novaReceita = new Transacao(descricao, valor);
+                        entradas.add(novaReceita);
+                        System.out.println("Receita cadastrada com sucesso!");
+                    }
+
                     break;
                 case 2:
                     System.out.println("Cadastro de despesa selecionada");
@@ -52,6 +72,11 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Consulta de saldo selecionada");
+                    BigDecimal saldo = BigDecimal.ZERO;
+                    for(Transacao transacao : entradas) {
+                        saldo = saldo.add(transacao.getValor());
+                    }
+                    System.out.println("Saldo total: R$ " + saldo);
                     break;
                 case 0:
                     System.out.println("Encerrando o FinanceControl...");
