@@ -5,7 +5,6 @@ import br.com.financecontrol.model.Transacao;
 import java.math.BigDecimal;
 
 public class Main {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -26,49 +25,18 @@ public class Main {
         System.out.println(entradas.size());
 
         do {
-            System.out.println("=== MENU PRINCIPAL ===\n");
-            System.out.println("1 - Cadastrar receita");
-            System.out.println("2 - Cadastrar despesa");
-            System.out.println("3 - Listar transações");
-            System.out.println("4 - Consultar saldo");
-            System.out.println("0 - Sair\n");
-            System.out.println("Escolha uma opção:");
+            exibirMenu();
             opcao = scanner.nextInt();
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Cadastro de receita selecionada");
-                    scanner.nextLine();
-                    System.out.println("Digite a descrição da receita:");
-                    String descricao = scanner.nextLine();
-
-                    System.out.println("Descrição informada: " + descricao + "\n");
-
-                    System.out.println("Digite o valor da receita:");
-                    String valorDigitado = scanner.nextLine();
-
-                    BigDecimal valor = new BigDecimal (valorDigitado);
-                    System.out.println("Valor informado: R$ " + valor);
-
-                    if (valor.compareTo(BigDecimal.ZERO) <= 0) {
-                        System.out.println("O valor da receita deve ser maior que 0");
-                    } else {
-                        Transacao novaReceita = new Transacao(descricao, valor);
-                        entradas.add(novaReceita);
-                        System.out.println("Receita cadastrada com sucesso!");
-                    }
-
+                    cadastrarReceita(scanner, entradas);
                     break;
                 case 2:
                     System.out.println("Cadastro de despesa selecionada");
                     break;
                 case 3:
-                    System.out.println("Listagem de transações selecionada");
-                    for(Transacao transacao : entradas) {
-                        System.out.println("Descrição: " + transacao.getDescricao());
-                        System.out.println("Valor: R$ " + transacao.getValor());
-                        System.out.println("-------------------------");
-                    }
+                    listarTransacoes(entradas);
                     break;
                 case 4:
                     System.out.println("Consulta de saldo selecionada");
@@ -91,4 +59,54 @@ public class Main {
         scanner.close();
 
     }
+
+    public static void exibirMenu() {
+        System.out.println("=== MENU PRINCIPAL ===\n");
+        System.out.println("1 - Cadastrar receita");
+        System.out.println("2 - Cadastrar despesa");
+        System.out.println("3 - Listar transações");
+        System.out.println("4 - Consultar saldo");
+        System.out.println("0 - Sair\n");
+        System.out.println("Escolha uma opção:");
+    }
+
+    public static void cadastrarReceita(Scanner scanner, ArrayList<Transacao> entradas) {
+        System.out.println("Cadastro de receita selecionada");
+        scanner.nextLine();
+        System.out.println("Digite a descrição da receita:");
+        String descricao = scanner.nextLine();
+
+        if (descricao.isBlank()) {
+            System.out.println("Descrição inválida");
+        } else {
+            System.out.println("Descrição informada: " + descricao + "\n");
+            System.out.println("Digite o valor da receita:");
+            String valorDigitado = scanner.nextLine();
+
+            try {
+                BigDecimal valor = new BigDecimal (valorDigitado);
+                System.out.println("Valor informado: R$ " + valor);
+
+                if (valor.compareTo(BigDecimal.ZERO) <= 0) {
+                    System.out.println("O valor da receita deve ser maior que 0");
+                } else {
+                    Transacao novaReceita = new Transacao(descricao, valor);
+                    entradas.add(novaReceita);
+                    System.out.println("Receita cadastrada com sucesso!");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Valor digitado inválido");
+            }
+        }
+    }
+
+    public static void listarTransacoes (ArrayList<Transacao> entradas) {
+        System.out.println("Listagem de transações selecionada");
+        for (Transacao transacao : entradas) {
+            System.out.println("Descrição: " + transacao.getDescricao());
+            System.out.println("Valor: R$ " + transacao.getValor());
+            System.out.println("-------------------------");
+        }
+    }
+
 }
